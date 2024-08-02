@@ -45,7 +45,7 @@ class ProjectController extends Controller
         $data["author"] = Auth::user()->name;
         $data["date"] = Carbon::now();
         $newProject = Project::create($data);
-        $newProject->technologies()->sync($request->input('technologies', []));
+        $newProject->technologies()->sync($data["technologies"]);
         return redirect()->route("admin.project.show", $newProject);
     }
     /**
