@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Technology;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdatePostRequest;
@@ -31,7 +32,8 @@ class ProjectController extends Controller
     {
         $project = new Project();
         $types = \App\Models\types::all();
-        return view('admin.project.create', compact("project", "types"));
+        $technologies = Technology::all();
+        return view('admin.project.create', compact("project", "types","technologies"));
     }
 
     /**
@@ -40,11 +42,10 @@ class ProjectController extends Controller
     public function store(StoreProjectRequest $request)
     {
         $data = $request->validated();
-
         $data["author"] = Auth::user()->name;
         $data["date"] = Carbon::now();
         $newProject = Project::create($data);
-
+        $newProject->technologies()->sync($request->input('technologies', []));
         return redirect()->route("admin.project.show", $newProject);
     }
     /**
@@ -52,6 +53,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
+        $project->load('technologies');
         return view('admin.project.show', compact("project"));
     }
 
@@ -61,7 +63,8 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types = \App\Models\types::all();
-        return view('admin.project.edit', compact("project", "types"));
+        $technologies = Technology::all();
+    return view('admin.project.edit', compact("project", "types", "technologies"));
     }
 
     /**
@@ -71,7 +74,7 @@ class ProjectController extends Controller
     {
         $data = $request->validated();
         $project->update($data);
-
+        $project->technologies()->sync($request->input('technologies', []));
         return redirect()->route("admin.project.show", $project);
     }
 
