@@ -8,9 +8,9 @@
             <h1>{{ $project->id }}</h1>
             <h2>{{ $project->title }}</h2>
             <h2 style="background:{{$project->type->color}}">{{ $project->type->name }}</h2>
-            <h3>Technologies</h3>
+            <h2>Technologies Used</h2>
             @if($project->technologies->isEmpty())
-                <p>No technologies associated with this project.</p>
+                <p>No technologies assigned.</p>
             @else
                 <ul>
                     @foreach($project->technologies as $technology)
