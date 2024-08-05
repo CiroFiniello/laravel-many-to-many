@@ -20,7 +20,7 @@
             @endif
             <h3>{{ $project->author }}</h3>
             <div class="image d-flex justify-content-center">
-                <img src="{{ $project->image }}" alt="{{ $project->title }}" class="img-fluid">
+                <img src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->title }}" class="img-fluid">
             </div>
             <h4>{{ $project->date }}</h4>
             <p>

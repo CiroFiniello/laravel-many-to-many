@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-8 p-3">
-            <form action="@yield('form-action')" method="POST">
+            <form action="@yield('form-action')" method="POST" enctype="multipart/form-data">
                 @yield('form-method')
                 @csrf
 
@@ -39,7 +39,7 @@
 
                 <div class="mb-3">
                     <label for="image">image url</label>
-                    <input type="text" name="image" id="image" class="form-control" value="{{ old('image', $project->image) }}">
+                    <input type="file" name="image" id="image" class="form-control" value="{{ old('image', $project->image) }}">
                     @error("image")
                     <div class="alert alert-danger">
                         {{ $message }}

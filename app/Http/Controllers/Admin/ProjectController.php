@@ -11,6 +11,7 @@ use App\Models\Project;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -42,6 +43,9 @@ class ProjectController extends Controller
     public function store(StoreProjectRequest $request)
     {
         $data = $request->validated();
+
+        $img_path = Storage::put('uploads/projects', $data['image']);
+        $data['image'] = $img_path;
         $data["author"] = Auth::user()->name;
         $data["date"] = Carbon::now();
         $newProject = Project::create($data);
